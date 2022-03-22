@@ -55,15 +55,23 @@ public class Laby {
 	
 	public void solve() {
 		ArrayList<Position> path = new ArrayList<Position>();
+		long start = System.currentTimeMillis();
 		this.recursiveSolve(startPosX, startPosY, path);
-		System.out.println(path.size());
+		long end = System.currentTimeMillis();
+		System.out.println("Solving Time in milli seconds: "+ (end-start));	
+		boolean sw = true;
 		for(Position p : path) {
-			map[p.x][p.y] = 'x';
+			char choice = sw ? 'x' : '-';
+			map[p.x][p.y] = choice;
+			sw = !sw;
 		}
 		this.drawMapWithoutTry();
 	}
 	
 	public boolean recursiveSolve(int posx,int posy,ArrayList<Position> path) {
+		if(!inBound(posx,posy)) {
+			return false;
+		}
 		if(this.map[posx][posy] == '2') {
 			path.add(new Position(posx,posy));
 			return true;
@@ -89,6 +97,13 @@ public class Laby {
 		}
 		return false;
 	} 
+	
+	public boolean inBound(int posX, int posY) {
+		if(posX >= 0 && posY >= 0 && posX < sizeX && posY < sizeY) {
+			return true;
+		}
+		return false;
+	}
 	
 
 	
